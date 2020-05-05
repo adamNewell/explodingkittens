@@ -295,13 +295,23 @@ export class DBFBoard extends React.Component {
             showInvalidPlay
         } = this.state;
 
-        if (ctx.gameover) {
+        if (G.gameover) {
             const winner = G.players.find(p => p.status !== EXPLODED);
             const winnerName = gameMetadata[winner.id].name;
             return (
                 <div id='board' className="board">
                     <div className="d-flex justify-content-center">
                         Congratulations to {winnerName} for winning the game!
+                    </div>
+
+                    <div className="d-flex flex-column justify-content-center align-items-center">
+                        <Chat
+                            log={G.chat}
+                            players={gameMetadata}
+                            onChatSubmitted={this.onChatSubmitted}
+                            currentPlayerID={playerID}
+                        />
+
                     </div>
                 </div>
             );
@@ -391,12 +401,14 @@ export class DBFBoard extends React.Component {
                 </div>
 
                 <div className="deck">
-                    <Chat
-                        log={G.chat}
-                        players={gameMetadata}
-                        onChatSubmitted={this.onChatSubmitted}
-                        currentPlayerID={playerID}
-                    />
+                    <div className="position-absolute d-inline-block" style={{ zIndex: 1 }}>
+                        <Chat
+                            log={G.chat}
+                            players={gameMetadata}
+                            onChatSubmitted={this.onChatSubmitted}
+                            currentPlayerID={playerID}
+                        />
+                    </div>
                     <div className='card-deck'>
                         <div className="deck-section">
                             <span className={lastDiscarded !== undefined ? 'deck-card' : 'hidden'}>

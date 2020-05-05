@@ -81,21 +81,20 @@ class Chat extends React.Component {
   }
 
   render() {
-    const { log, players, currentPlayerID } = this.props;
+    const { log, players, currentPlayerID, className } = this.props;
     const { showForceScroll, chatMsg } = this.state;
     return (
-      <div className="chat">
+      <div className={`chat ${className}`}>
         <div className="chat-log" ref={this.logRef} onScroll={this.handleScroll}>
           {log.map(c => {
             // Code setup to allow spectators to chat, but spectators don't have moves and can't add to G, so... eh
             const player = players[c.playerID];
             const date = new Date(c.time);
-            const timezone = date.toLocaleTimeString('en-us', { timeZoneName: 'short' }).split(' ')[2]
-            const timeString = `${padNumber(date.getHours(), 2)}:${padNumber(date.getMinutes(), 2)}:${padNumber(date.getSeconds(), 2)} ${timezone}`
+            const timeString = `${padNumber(date.getHours(), 2)}:${padNumber(date.getMinutes(), 2)}`
             return (
-              <div className="chat-message" key={date.getTime()}>
-                <span className="writer">{player ? player.name : 'spectator'} </span>
-                <span className="stamp">({timeString}): </span>
+              <div className={`chat-message _${c.playerID}`} key={date.getTime()}>
+                <span className="time">{timeString} </span>
+                <span className="author">{player ? player.name : 'spectator'}: </span>
                 <span className="message">{c.msg}</span>
               </div>
             )
@@ -129,5 +128,8 @@ class Chat extends React.Component {
     )
   }
 }
+Chat.defaultProps = {
+  className: '',
+};
 
 export default Chat;

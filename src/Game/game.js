@@ -76,7 +76,7 @@ export const DetonatingBabyFelines = {
         }
     },
     endIf: (G, ctx) => {
-        return G.players.filter(p => p.status == EXPLODED).length === ctx.numPlayers - 1;
+        return false;
     }
 };
 
@@ -88,6 +88,7 @@ export function getInitialState(ctx) {
         chat: [],
         cardPlayed: defaultCardPlayed(),
         turnCounter: 1,
+        gameover: false,
         favor: defaultFavor()
     };
 
@@ -166,10 +167,11 @@ function stealCard(G, ctx, targetPlayer, stealType = null, stealIndex = null) {
 function playCards(G, ctx, cards) {
     discardCards(G, ctx.currentPlayer, cards);
 
+    const explodedPlayers = G.players.filter(p => p.status == EXPLODED).map(p => p.id);
     G.cardPlayed = {
         cards,
         utcUnixTimePlayed: utcUnixTimestamp(),
-        playersForgoNope: [ctx.currentPlayer],
+        playersForgoNope: [...explodedPlayers, ctx.currentPlayer],
         nopers: [],
     };
 }
@@ -235,6 +237,9 @@ function explode(G, ctx) {
 
     G.players[ctx.currentPlayer] = player
     G.turnCounter = 1;
+
+    G.gameover = G.players.filter(p => p.status == EXPLODED).length === ctx.numPlayers - 1
+
     //end turn
     endTurn(G, ctx);
 }
@@ -255,10 +260,12 @@ function favor(G, ctx, targetPlayer) {
 
 function nope(G, ctx, playerID, card) {
     discardCards(G, playerID, [card]);
+
+    const explodedPlayers = G.players.filter(p => p.status == EXPLODED).map(p => p.id);
     G.cardPlayed = {
         ...G.cardPlayed,
         utcUnixTimePlayed: utcUnixTimestamp(),
-        playersForgoNope: [playerID],
+        playersForgoNope: [...explodedPlayers, playerID],
         nopers: [...G.cardPlayed.nopers, playerID],
     };
 }

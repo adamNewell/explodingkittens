@@ -1,18 +1,69 @@
 .chat {
-  position: absolute;
-  display: inline-block;
-  z-index: 2;
+  width: fit-content;
+  border: 1px solid #eee;
+  -moz-box-shadow:    inset 0px 2px 3px #ccc;
+  -webkit-box-shadow: inset 0px 2px 3px #ccc;
+  box-shadow:         inset 0px 2px 3px #ccc;
+  padding: 8px 8px 0 8px;
+
   .chat-log{
     position: relative;
     width: 400px;
     overflow: auto;
     word-break: break-all;
     height: 260px;
+
+    // Playing around with moving the time to a tooltip.
+    [data-tooltip] {
+      &:before {
+        pointer-events: none;
+        position : absolute;
+        content : attr(data-tooltip);
+        opacity : 0;
+
+        /* customizable */
+        transition: all 0.15s ease;
+        padding: 2px;
+        color: white;
+        border-radius: 2px;
+        box-shadow: 2px 2px 1px silver;
+      }
+      &:hover:before {
+         opacity : 1;
+         /* customizable */
+         background: black;
+         margin-top: -20px;
+         margin-left: 20px;
+      }
+    }
+
+    .chat-message {
+      &:nth-child(odd) {
+        background-color: lighten($color: grey, $amount: 40);
+      }
+
+      // Max player count. Enforced colors.
+      &._0 .author {
+        color: #aa3830;
+      }
+      &._1 .author {
+        color: black;
+      }
+      &._2 .author {
+        color: rgb(116, 106, 206);
+      }
+      &._3 .author {
+        color: rgb(12, 160, 12);
+      }
+    }
   }
   .forceScroll {
     background-color: #aa3830;
     color: white;
     text-align: center;
     cursor: pointer;
+  }
+  .chat-input {
+    width: 400px;
   }
 }

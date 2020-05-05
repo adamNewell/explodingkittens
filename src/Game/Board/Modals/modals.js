@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Modal, ModalBody, ModalHeader, ModalFooter, Table, Dropdown, Button, Input } from 'reactstrap';
 import { createModal } from "react-modal-promise";
-import {Card, CardDeck, CardColumns, Image} from "react-bootstrap";
+import { Card, CardDeck, CardColumns, Image } from "react-bootstrap";
 import { EXPLODED } from "../../playerStatus";
 import { utcUnixTimestamp, NOPE_TIMEOUT } from '../../game';
 import { CardIsOneOfType, CardTypes } from '../../Deck/cards';
@@ -29,7 +29,7 @@ const viewPileStructure = ({ open, close, deck, title, selectable }) => {
             centered scrollable
         >
             <ModalHeader toggle={close}>
-                { title }
+                {title}
             </ModalHeader>
             <ModalBody>
                 <div className="discardPile">
@@ -222,7 +222,8 @@ export const NopeModal = ({ G, ctx, players, playerID, handleNope, handleNoNope 
     const remainingTime = NOPE_TIMEOUT - (utcUnixTimestamp() - G.cardPlayed.utcUnixTimePlayed);
     const hasNope = G.players[playerID].hand.some(c => CardIsOneOfType(c, CardTypes.Nope))
     const cardInfo = G.cardPlayed;
-    const playerHasForgone = cardInfo.playersForgoNope.some(p => p === playerID);
+    const playerHasForgone = cardInfo.playersForgoNope.some(p => p == playerID);
+    const playerHasExploded = G.players[playerID].status === EXPLODED;
     const currentPlayerName = players[ctx.currentPlayer].name;
     const wasNoped = cardInfo.nopers.length % 2 === 1;
     let playType = 'UNKOWN';
@@ -268,7 +269,8 @@ export const NopeModal = ({ G, ctx, players, playerID, handleNope, handleNoNope 
                 )}
                 {playerHasForgone && (
                     <div>
-                        Waiting for other players responses...
+                        {!playerHasExploded && 'Waiting for other players responses...'}
+                        {playerHasExploded && "You've already exploded. Enjoy the mayham."}
                     </div>
                 )}
                 {!playerHasForgone && (
@@ -307,16 +309,16 @@ export const NopeModal = ({ G, ctx, players, playerID, handleNope, handleNoNope 
     );
 }
 
-const cardDetailModalStructure = ({open, close, card}) => {
+const cardDetailModalStructure = ({ open, close, card }) => {
 
     return (
         <Modal
-               size="sm" isOpen={open} toggle={close}
-               aria-labelledby="contained-modal-title-vcenter"
-               centered
+            size="sm" isOpen={open} toggle={close}
+            aria-labelledby="contained-modal-title-vcenter"
+            centered
         >
             <ModalBody>
-                <Image className='card-detail' src={ card.imageURL } />
+                <Image className='card-detail' src={card.imageURL} />
             </ModalBody>
         </Modal>
     );
