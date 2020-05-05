@@ -1,4 +1,4 @@
-import { generateDeck, insertDefuseCards, insertExplodingCards } from "./Deck/deck";
+import { generateDeckAndHands } from "./Deck/deck";
 import { CardIsOneOfType, CardTypes } from './Deck/cards';
 import { ALIVE, EXPLODED } from "./playerStatus";
 
@@ -12,33 +12,9 @@ export const utcUnixTimestamp = () => {
     return Math.floor(d1.getTime());
 }
 
-function shuffleDeck(ctx, deck, times) {
+function shuffleDeck(shuffleFunc, deck, times) {
     //Shuffle the deck, do it three times as is tradition
-    return [...Array(times)].reduce((r) => r = ctx.random.Shuffle(r), deck);
-}
-
-export function dealHands(ctx) {
-    const generatedResults = generateDeck();
-    const baseDeck = generatedResults.baseDeck;
-    const defuseCards = generatedResults.defuseCards;
-
-    const playerHands = Array(ctx.numPlayers);
-    const dealingDeck = shuffleDeck(ctx, baseDeck, 3);
-
-    // Divvy'ing one card per player at a time emulates life to help with randomness, but is unnecessary
-    // and memory inefficient for a computer; so we'll pop out a hand at a time
-    for (let i = 0; i < ctx.numPlayers; i++) {
-        const hand = [...Array(handSize)].map(() => dealingDeck.pop())
-        playerHands[i] = [defuseCards.pop(), ...hand];
-    }
-
-    //Insert remaining defuse cards into deck
-    let gameDeck = insertDefuseCards(ctx, dealingDeck, defuseCards);
-
-    //Insert exploding cards
-    gameDeck = insertExplodingCards(ctx, gameDeck);
-
-    return { playerHands, gameDeck };
+    return [...Array(times)].reduce((r) => r = shuffleFunc(r), deck);
 }
 
 export function defaultFavor() {
@@ -125,14 +101,16 @@ export function getInitialState(ctx) {
         }
     }
 
-    let dealtCards = dealHands(ctx);
+    // Reduce code copy by making an easy access to the shuffle in here
+    const shuffleFunc = (deck) => shuffleDeck(ctx.random.Shuffle, deck, 3);
+    const { playerHands, deck } = generateDeckAndHands(ctx.numPlayers, shuffleFunc);
+    G.deck = deck;
 
     //Assign dealt hands and deck to the game object
     for (let j = 0; j < ctx.numPlayers; j++) {
-        G.players[j].hand = dealtCards.playerHands[j];
+        G.players[j].hand = playerHands[j];
     }
 
-    G.deck = dealtCards.gameDeck;
     return G;
 }
 
@@ -140,7 +118,7 @@ function discardCards(G, playerIndex, cards) {
     let hand = G.players[playerIndex].hand;
 
     for (let card of cards) {
-        let index = hand.findIndex(e => e.name === card.name && e.type === card.type);
+        let index = hand.findIndex(e => e.id === card.id);
 
         hand.splice(index, 1);
         G.discardPile.push(card)
@@ -156,7 +134,7 @@ function giveCard(G, ctx, card) {
     let playerHand = G.players[willGive].hand;
     let opponentHand = G.players[willReceive].hand;
     let cardToGive = null;
-    let index = playerHand.findIndex(e => e.name === card.name && e.type === card.type);
+    let index = playerHand.findIndex(e => e.id === card.id);
     playerHand.splice(index, 1);
     cardToGive = card;
     opponentHand.push(cardToGive);
@@ -200,7 +178,7 @@ function returnCards(G, ctx, cards) {
     let hand = G.players[ctx.currentPlayer].hand;
 
     for (let card of cards) {
-        let index = G.discardPile.findIndex(e => e.name === card.name && e.type === card.type);
+        let index = G.discardPile.findIndex(e => e.id === card.id);
 
         G.discardPile.splice(index, 1);
         hand.push(card);
@@ -270,7 +248,7 @@ function favor(G, ctx, targetPlayer) {
     ctx.events.setActivePlayers({
         revert: true,
         value: {
-            [targetPlayer.toString()]: { stage: 'give', moveLimit: 1 },
+            [targetPlayer.toString()]: { stage: 'give' },
         },
     });
 }
@@ -298,7 +276,7 @@ function seeTheFuture(G) {
 }
 
 function shuffle(G, ctx) {
-    G.deck = shuffleDeck(ctx, G.deck, 3);
+    G.deck = shuffleDeck(ctx.random.Shuffle, G.deck, 3);
 }
 
 function skip(G, ctx) {

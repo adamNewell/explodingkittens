@@ -83,7 +83,6 @@ class Chat extends React.Component {
   render() {
     const { log, players, currentPlayerID } = this.props;
     const { showForceScroll, chatMsg } = this.state;
-    console.log(this.state);
     return (
       <div className="chat">
         <div className="chat-log" ref={this.logRef} onScroll={this.handleScroll}>

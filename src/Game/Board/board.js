@@ -20,7 +20,7 @@ import Hand from "../components/Hand/Hand";
 import { EXPLODED } from '../playerStatus';
 import { utcUnixTimestamp, NOPE_TIMEOUT } from '../game';
 import './board.scss';
-import { Popup } from './Popup';
+import Popup from './Popup';
 import Chat from '../components/Chat/Chat';
 
 export class DBFBoard extends React.Component {
@@ -80,8 +80,9 @@ export class DBFBoard extends React.Component {
 
     handleSelectedCardChanges(item) {
         let selected = this.state.selectedCards;
-        if (selected.includes(item)) {
-            selected.splice(selected.indexOf(item), 1);
+        const idx = selected.findIndex(c => c.id === item.id);
+        if (idx !== -1) {
+            selected.splice(idx, 1);
         } else {
             selected.push(item);
         }
@@ -141,7 +142,7 @@ export class DBFBoard extends React.Component {
                     G: G
                 });
                 if (typeof tgtPlayer === "number") {
-                    this.props.moves.twoOfAKind(tgtPlayer);
+                    moves.twoOfAKind(tgtPlayer);
                 }
             }
         } else if (selectedPlay.length === 3) {
@@ -157,16 +158,16 @@ export class DBFBoard extends React.Component {
                     let tgtType = await targetTypeModal({
                         types: cardTypes
                     });
-                    this.props.moves.threeOfAKind(tgtPlayer, tgtType);
+                    moves.threeOfAKind(tgtPlayer, tgtType);
                 }
             }
 
         } else if (selectedPlay.length === 5) {
             if (selectedPlay.map(c => c.name).length === 5) {
                 if (CardsOfTypes(selectedPlay, 5)) {
-                    let tgtCardIndex = await viewPileModal({ deck: this.props.G.discardPile, selectable: true, title: 'Discard Pile' });
-                    if(typeof tgtCardIndex === "number") {
-                        this.props.moves.fiveDifferent(tgtCardIndex)
+                    let tgtCardIndex = await viewPileModal({ deck: G.discardPile, selectable: true, title: 'Discard Pile' });
+                    if (typeof tgtCardIndex === "number") {
+                        moves.fiveDifferent(tgtCardIndex);
                     } else {
                         moves.returnCards(selectedPlay);
                     }
@@ -259,7 +260,7 @@ export class DBFBoard extends React.Component {
         moves.holdNope(playerID);
     }
 
-    hidehowInvalidPlay = () => {
+    hideShowInvalidPlay = () => {
         this.setState({ showInvalidPlay: false })
     }
 
@@ -268,8 +269,12 @@ export class DBFBoard extends React.Component {
     }
 
     onChatSubmitted = (msg) => {
+        const {
+            moves,
+            playerID
+        } = this.props;
         if (msg) {
-            this.props.moves.chat(this.props.playerID, msg);
+            moves.chat(playerID, msg);
         }
     }
 
@@ -285,6 +290,10 @@ export class DBFBoard extends React.Component {
             willReceive: favorWillRecieve,
             willGive: favorWillGive,
         } = G.favor;
+        const {
+            selectedCards,
+            showInvalidPlay
+        } = this.state;
 
         if (ctx.gameover) {
             const winner = G.players.find(p => p.status !== EXPLODED);
@@ -303,8 +312,14 @@ export class DBFBoard extends React.Component {
         const isCurrentPlayer = ctx.currentPlayer == playerID; // double equals required
 
         const opts = {
-            'disabled': this.state.selectedCards.length === 0 ? 'disabled' : ''
+            'disabled': selectedCards.length === 0 ? 'disabled' : ''
         };
+        let invalidPopupSize = 'sm';
+        if (selectedCards.length > 3) {
+            invalidPopupSize = 'lg';
+        } else if (selectedCards.length > 2) {
+            invalidPopupSize = 'md';
+        }
         return (
             <div id='board' className="board">
                 <ModalFactory />
@@ -314,13 +329,13 @@ export class DBFBoard extends React.Component {
                     giveUp={this.giveUp}
                 />
                 <Popup
-                    show={this.state.showInvalidPlay}
-                    onHide={this.hidehowInvalidPlay}
+                    show={showInvalidPlay}
+                    onHide={this.hideShowInvalidPlay}
                     header="Attempted play is invalid"
-                    cards={this.state.selectedCards}
+                    size={invalidPopupSize}
                     body={<div>
                         Card combination does nothing:
-                        <Hand cards={this.state.selectedCards} onSelect={() => { }} />
+                        <Hand cards={selectedCards} onSelect={() => { }} />
                     </div>}
                 />
                 {/* redundant, with the show prop, but stops index errors from gameMetadata usage */}
@@ -428,7 +443,7 @@ export class DBFBoard extends React.Component {
                     <div className='dplayer pt-5 pb-3'>
                         <Hand cards={G.players[playerID].hand}
                             onSelect={this.handleSelectedCardChanges.bind(this)}
-                            selectedCards={this.state.selectedCards}
+                            selectedCards={selectedCards}
                         />
                     </div>
                 )}
