@@ -1,0 +1,18 @@
+.chat {
+  position: absolute;
+  display: inline-block;
+  z-index: 2;
+  .chat-log{
+    position: relative;
+    width: 400px;
+    overflow: auto;
+    word-break: break-all;
+    height: 260px;
+  }
+  .forceScroll {
+    background-color: #aa3830;
+    color: white;
+    text-align: center;
+    cursor: pointer;
+  }
+}

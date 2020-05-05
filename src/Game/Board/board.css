@@ -1,0 +1,99 @@
+.board {
+  background: white;
+  border: 2px solid black;
+  border-radius: 10px;
+  padding: 10px;
+  min-width: 1280px;
+  min-height: 70px; }
+  .board #players {
+    width: 180px;
+    font-size: 14px;
+    display: inline-block; }
+    .board #players table {
+      border-collapse: separate !important;
+      border-spacing: 0;
+      border-top-left-radius: 10px;
+      -webkit-box-shadow: inset 2px 3px 3px #bbb;
+      -moz-box-shadow: inset 2px 3px 3px #bbb;
+      box-shadow: inset 2px 3px 3px #bbb; }
+      .board #players table .players-card {
+        width: 13px;
+        height: auto; }
+      .board #players table .player-num-cards {
+        padding-left: 5px; }
+    .board #players td, .board #players th, .board #players tr {
+      border-style: none;
+      padding: 5px 12px;
+      min-width: 30px; }
+    .board #players tr.exploded {
+      background-color: darkred;
+      color: white; }
+    .board #players td:first-child {
+      display: none; }
+  .board #turn-indicator {
+    position: relative;
+    text-align: center;
+    padding: 8px;
+    margin: 15px auto;
+    left: 14px; }
+    .board #turn-indicator .break {
+      height: 0px; }
+    .board #turn-indicator .attacked {
+      display: inline-block;
+      text-align: center;
+      background-color: #f2ab00;
+      padding: 8px;
+      margin: 18px 12px 0 12px;
+      color: white;
+      border: #f2ab00;
+      box-shadow: 0 0 20px #f2ab00; }
+    .board #turn-indicator span {
+      padding: 5px 10px;
+      margin-bottom: 8px;
+      min-width: 120px;
+      border: 1px dashed black;
+      text-align: center;
+      left: 10px; }
+  .board .card-deck {
+    display: flex;
+    justify-content: center; }
+    .board .card-deck .deck-section {
+      text-align: center; }
+      .board .card-deck .deck-section .deck-card {
+        position: relative;
+        text-align: center; }
+        .board .card-deck .deck-section .deck-card .centered {
+          position: absolute;
+          top: 178%;
+          left: 57%;
+          transform: translate(-50%, 178%);
+          padding: 5px 10px;
+          border-radius: 5px;
+          font-size: 12px; }
+        .board .card-deck .deck-section .deck-card .count-indicator {
+          display: inline-block;
+          position: relative;
+          background: #51574b;
+          color: #ebdbb2;
+          height: 30px;
+          width: 30px;
+          padding: 4px 2px 2px 3px;
+          border-radius: 15px;
+          top: -128px; }
+        .board .card-deck .deck-section .deck-card .top-right {
+          left: 192px; }
+        .board .card-deck .deck-section .deck-card .top-left {
+          left: 18px; }
+        .board .card-deck .deck-section .deck-card img {
+          width: 180px; }
+  .board #action-buttons {
+    position: relative;
+    text-align: center;
+    left: 14px;
+    padding: 10px 0; }
+  .board .rules-button {
+    position: absolute;
+    top: 40px;
+    right: 120px; }
+
+/*# sourceMappingURL=board.css.map */

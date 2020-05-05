@@ -1,0 +1,10 @@
+.hand {
+  display: flex;
+  justify-content: center;
+  padding-top: 50px; }
+  .hand .playing-card {
+    width: 130px; }
+  .hand .selected {
+    transform: translateY(-35%); }
+
+/*# sourceMappingURL=Hand.css.map */

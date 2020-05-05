@@ -1,0 +1,150 @@
+/*
+ * Copyright 2018 The boardgame.io Authors.
+ *
+ * Use of this source code is governed by a MIT-style
+ * license that can be found in the LICENSE file or at
+ * https://opensource.org/licenses/MIT.
+ */
+body {
+  min-width: 1430px;
+  background-color: #aa3830;
+  font-family: 'Bebas Neue', cursive; }
+
+.hidden {
+  display: none; }
+
+#title {
+  text-align: center;
+  color: white;
+  font-size: 60px; }
+  #title span:first-child {
+    display: block;
+    background: linear-gradient(#F1CE00, #D03631);
+    background-clip: text;
+    -webkit-text-fill-color: transparent; }
+  #title span:last-child {
+    display: block;
+    margin-top: -22px;
+    height: 80px;
+    font-size: 80px; }
+
+#lobby-view {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 25px !important;
+  position: relative; }
+  #lobby-view > div:first-child {
+    padding: 20px;
+    width: 350px;
+    height: 140px;
+    background: white;
+    border: 2px solid black;
+    border-radius: 10px;
+    margin: 0 auto;
+    top: 50%; }
+    #lobby-view > div:first-child > div {
+      margin: 0 auto; }
+  #lobby-view > div:nth-child(2) {
+    padding: 20px;
+    width: 600px;
+    background: white;
+    border: 2px solid black;
+    border-radius: 10px;
+    margin: 0 auto; }
+    #lobby-view > div:nth-child(2) > button {
+      float: right;
+      margin: 0 5px 0 0;
+      text-transform: capitalize; }
+
+#game-creation span:first-child {
+  display: inline;
+  margin-right: 8px; }
+#game-creation > div {
+  display: inline; }
+  #game-creation > div span {
+    margin-right: 3px; }
+#game-creation select:first-child {
+  /* This is the game selector. It's not relevant. So it's hidden. */
+  display: none; }
+#game-creation ~ p.phase-title {
+  margin: 15px 0 0 5px; }
+#game-creation ~ p.phase-title:last-of-type {
+  color: #515452;
+  font: italic 14px Serif;
+  margin: 0 0 0 5px; }
+
+#instances {
+  height: 180px;
+  width: 550px;
+  margin: 0 auto;
+  overflow: auto;
+  border: 1px solid #eee;
+  -moz-box-shadow: inset 0px 2px 3px #ccc;
+  -webkit-box-shadow: inset 0px 2px 3px #ccc;
+  box-shadow: inset 0px 2px 3px #ccc; }
+  #instances table {
+    width: 545px; }
+    #instances table td {
+      list-style: none;
+      text-align: left;
+      font-size: 14px;
+      padding: 5px 10px; }
+    #instances table td:first-child {
+      display: none; }
+    #instances table td:nth-child(2) {
+      width: 100px; }
+    #instances table td:last-child {
+      width: 110px;
+      padding-right: 0; }
+  #instances button {
+    font-size: 12px;
+    height: 30px; }
+
+.error-msg {
+  font-size: 12px;
+  color: red;
+  margin: 0 10px;
+  display: block; }
+
+.buttons button {
+  margin: 10px 0 0 10px;
+  width: 70px; }
+
+#game-exit {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  font-family: 'Bebas Neue', cursive; }
+  #game-exit > button {
+    display: inline-block;
+    padding: 10px;
+    margin: 5px;
+    width: fit-content;
+    text-align: center;
+    text-transform: capitalize;
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    -o-border-radius: 7px;
+    border-radius: 7px;
+    cursor: pointer; }
+
+#lobby-exit {
+  position: relative;
+  float: right;
+  top: 15px;
+  left: 15px; }
+  #lobby-exit > button {
+    display: inline-block;
+    padding: 10px;
+    margin: 5px;
+    width: fit-content;
+    text-align: center;
+    text-transform: capitalize;
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    -o-border-radius: 7px;
+    border-radius: 7px;
+    cursor: pointer; }
+
+/*# sourceMappingURL=lobby.css.map */

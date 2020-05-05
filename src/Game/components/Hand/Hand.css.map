@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,KAAM;EACL,OAAO,EAAE,IAAI;EACb,eAAe,EAAE,MAAM;EACvB,WAAW,EAAE,IAAI;EAEjB,mBAAc;IACb,KAAK,EAAE,KAAK;EAGb,eAAU;IACT,SAAS,EAAE,gBAAgB",
+"sources": ["Hand.scss"],
+"names": [],
+"file": "Hand.css"
+}

@@ -1,0 +1,15 @@
+.hand {
+	display: flex;
+	justify-content: center;
+	padding-top: 50px;
+
+	.playing-card {
+		width: 130px;
+	}
+
+	.selected {
+		transform: translateY(-35%);
+	}
+}
+
+

@@ -1,0 +1,153 @@
+@mixin box-shadow($top, $left, $blur, $color, $inset: false) {
+  @if $inset {
+    -webkit-box-shadow:inset $top $left $blur $color;
+    -moz-box-shadow:inset $top $left $blur $color;
+    box-shadow:inset $top $left $blur $color;
+  } @else {
+    -webkit-box-shadow: $top $left $blur $color;
+    -moz-box-shadow: $top $left $blur $color;
+    box-shadow: $top $left $blur $color;
+  }
+}
+
+.board {
+  background: white;
+  border: 2px solid black;
+  border-radius: 10px;
+  padding: 10px;
+  min-width: 1280px;
+  min-height: 70px;
+
+  #players {
+    width: 180px;
+    font-size: 14px;
+    display: inline-block;
+
+    table {
+      border-collapse: separate !important;
+      border-spacing: 0;
+      border-top-left-radius: 10px;
+      @include box-shadow(2px, 3px, 3px, #bbb, true);
+
+      .players-card {
+        width: 13px;
+        height: auto;
+      }
+
+      .player-num-cards {
+        padding-left: 5px;
+      }
+    }
+
+    td, th, tr {
+      border-style: none;
+      padding: 5px 12px;
+      min-width: 30px;
+    }
+
+    tr {
+      &.exploded {
+        background-color: darkred;
+        color: white;
+      }
+    }
+
+    td:first-child {
+      display: none;
+    }
+  }
+
+  #turn-indicator {
+    position: relative;
+    text-align: center;
+    padding: 8px;
+    margin: 15px auto;
+    left: 14px;
+
+    .break {
+      height: 0px;
+    }
+
+    .attacked {
+      display: inline-block;
+      text-align: center;
+      background-color: #f2ab00;
+      padding: 8px;
+      margin: 18px 12px 0 12px;
+      color: rgba(255, 255, 255, 1);
+      border: #f2ab00;
+      box-shadow: 0 0 20px rgba(242, 171, 0, 10);
+
+    }
+
+    span {
+      padding: 5px 10px;
+      margin-bottom: 8px;
+      min-width: 120px;
+      border: 1px dashed black;
+      text-align: center;
+      left: 10px;
+    }
+  }
+
+  .card-deck {
+    display: flex;
+    justify-content: center;
+
+    .deck-section {
+      text-align: center;
+
+      .deck-card {
+        position: relative;
+        text-align: center;
+
+        .centered {
+          position: absolute;
+          top: 178%;
+          left: 57%;
+          transform: translate(-50%, 178%);
+          padding: 5px 10px;
+          border-radius: 5px;
+          font-size: 12px;
+        }
+
+        .count-indicator {
+          display: inline-block;
+          position: relative;
+          background: #51574b;
+          color: #ebdbb2;
+          height: 30px;
+          width: 30px;
+          padding: 4px 2px 2px 3px;
+          border-radius: 15px;
+          top: -128px;
+        }
+
+        .top-right {
+          left: 192px;
+        }
+
+        .top-left {
+          left: 18px;
+        }
+
+        img {
+          width: 180px;
+        }
+      }
+    }
+  }
+
+  #action-buttons {
+    position: relative;
+    text-align: center;
+    left: 14px;
+    padding: 10px 0;
+  }
+
+  .rules-button {
+    position: absolute;
+    top: 40px;
+    right: 120px;
+  }
+}

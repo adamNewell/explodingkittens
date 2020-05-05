@@ -1,0 +1,18 @@
+.card-container {
+  position: relative;
+
+  .card-info {
+    position: absolute;
+    top: 4px;
+    right: 6px;
+    color: #898986;
+    font-size: 16px;
+    font-family: 'SansSerif';
+  }
+
+  a:hover {
+    color: #898986;
+    cursor: pointer;
+  }
+
+}

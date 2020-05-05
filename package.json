@@ -1,0 +1,63 @@
+{
+  "name": "game",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.4.1",
+    "@testing-library/user-event": "^7.2.1",
+    "@types/jest": "^25.2.1",
+    "@types/node": "^13.13.2",
+    "@types/react": "^16.9.34",
+    "@types/react-dom": "^16.9.6",
+    "boardgame.io": "^0.39.9",
+    "bootstrap": "^4.4.1",
+    "esm": "^3.2.25",
+    "material": "^0.4.3",
+    "node-persist": "^3.0.5",
+    "node-sass": "^4.13.1",
+    "prop-types": "^15.7.2",
+    "react": "^16.13.0",
+    "react-bootstrap": "^1.0.0",
+    "react-dom": "^16.13.0",
+    "react-draggable": "^4.3.1",
+    "react-modal-promise": "^0.5.2",
+    "react-scripts": "3.4.0",
+    "reactstrap": "^8.4.1",
+    "typescript": "^3.8.3"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "web": "npm run start",
+    "server": "node -r esm src/server.js",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "scss": "node-sass --watch scss -o css"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@types/superagent": "^4.1.7",
+    "eslint": "^6.8.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-standard": "^4.0.1",
+    "superagent": "^5.2.2"
+  }
+}
